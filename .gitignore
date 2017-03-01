@@ -1,0 +1,8 @@
+/package/form.xls
+/package/renkei_file/*
+!/package/renkei_file/.gitkeep
+/target/classes
+
+SAR_AUTO
+/target/
+/bin/
