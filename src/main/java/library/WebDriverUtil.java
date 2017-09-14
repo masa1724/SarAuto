@@ -335,7 +335,7 @@ public class WebDriverUtil {
 		_driver.quit();
 	}
 	
-	public static boolean invalidBlowserName(String blowserName) {
+	public static boolean validBlowserName(String blowserName) {
 		if(blowserName == null) return false;
 		
 		for(String b : BLOWSER_LIST) {

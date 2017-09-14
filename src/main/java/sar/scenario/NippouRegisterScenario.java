@@ -6,9 +6,9 @@ import java.util.List;
 import library.DateStringUtil;
 import main.ScenarioParamKey;
 import sar.bean.Nippou;
-import sar.bean.SagyouJisseki;
+import sar.bean.SagyouTask;
 import sar.page.common.SARPageHeader;
-import sar.page.form.SagyouListForm;
+import sar.page.form.SagyouTaskListForm;
 import sar.page.nippou.NippouDetailsPage;
 import sar.page.nippou.NippouListPage;
 import scenario.Scenario;
@@ -31,8 +31,8 @@ public class NippouRegisterScenario implements Scenario {
 		List<Nippou> nippouRecordList = 
 				(List<Nippou>)_params.getObject(ScenarioParamKey.NIPPOU_REGISTER_RECORD);
 		
-		List<SagyouJisseki> sagyouJissekiRecordList = 
-				(List<SagyouJisseki>)_params.getObject(ScenarioParamKey.SAGYOU_JISSEKI_REGISTER_RECORD);
+		List<SagyouTask> sagyouJissekiRecordList = 
+				(List<SagyouTask>)_params.getObject(ScenarioParamKey.SAGYOU_JISSEKI_REGISTER_RECORD);
 		
 		// 現在のページオブジェクトを取得
 		ScenarioDataHolder dataHolder = ScenarioDataHolder.getInstance();
@@ -51,7 +51,7 @@ public class NippouRegisterScenario implements Scenario {
 			String weekStr = "(" + DateStringUtil.getJapaneseWeekName(kinmuDate) + ")";
 			
 		    // 作業計画(実績)から日報の日付に対応するレコードを抽出
-			List<SagyouJisseki> dailySagyouJissekiRecordList = 
+			List<SagyouTask> dailySagyouJissekiRecordList = 
 					extractDailySagyouJissekiRecord(sagyouJissekiRecordList, kinmuDate);
 		     
 		    int jissekiRecordSize = dailySagyouJissekiRecordList.size();
@@ -94,10 +94,10 @@ public class NippouRegisterScenario implements Scenario {
 		    	nippouDetailsPage.selectTaikinTimeMin(nippouRecord.getTaikinTimeMin());
 
 				// 作業実績一覧フォーム取得
-		    	SagyouListForm sagyouListJissekiForm = nippouDetailsPage.getSagyouListJissekiForm();
+		    	SagyouTaskListForm sagyouListJissekiForm = nippouDetailsPage.getSagyouListJissekiForm();
 		    	
 				// フォームへレコードを追加
-				for (SagyouJisseki sagyouJissekiRecord : dailySagyouJissekiRecordList) {
+				for (SagyouTask sagyouJissekiRecord : dailySagyouJissekiRecordList) {
 					sagyouListJissekiForm.addRecord(sagyouJissekiRecord);
 				}
 		    }
@@ -116,10 +116,10 @@ public class NippouRegisterScenario implements Scenario {
 	 * @param kinmuDate : 勤務日
 	 * @return 指定された勤務日に該当するレコードリスト
 	 */
-	public List<SagyouJisseki> extractDailySagyouJissekiRecord(List<SagyouJisseki> sagyouJissekiRecordList, String kinmuDate) {
-		List<SagyouJisseki> list = new ArrayList<SagyouJisseki>();
+	public List<SagyouTask> extractDailySagyouJissekiRecord(List<SagyouTask> sagyouJissekiRecordList, String kinmuDate) {
+		List<SagyouTask> list = new ArrayList<SagyouTask>();
 		
-		for (SagyouJisseki record : sagyouJissekiRecordList) {
+		for (SagyouTask record : sagyouJissekiRecordList) {
 			if (record.getSagyouDate().equals(kinmuDate)) {
 				list.add(record);
 			}

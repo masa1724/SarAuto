@@ -3,7 +3,6 @@ package sar.page.geppou;
 import org.openqa.selenium.WebDriver;
 
 import sar.page.common.AbstractSARPage;
-import sar.page.common.CSSSelector;
 
 /** 月報(詳細)ページクラス  */
 public class GeppouDetailsPage extends AbstractSARPage {
@@ -18,7 +17,7 @@ public class GeppouDetailsPage extends AbstractSARPage {
 	 */
 	public void clickSaveButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_SAVE);
+		click(CommonCssSelector.BTN_SAVE);
 		alertAccept();
 		waitForSARPageLoaded();
 	}
@@ -29,7 +28,7 @@ public class GeppouDetailsPage extends AbstractSARPage {
 	 */
 	public GeppouListPage clickTsukijimeButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_TSUKIJIME);
+		click(CommonCssSelector.BTN_TSUKIJIME);
 		alertAccept();
 		
 		waitForSARPageLoaded();
@@ -40,14 +39,26 @@ public class GeppouDetailsPage extends AbstractSARPage {
 	 * 画面アクションの選択します。 
 	 */
 	public void selectAction(String action) {
-		selectByValue(CSSSelector.SELECT_ACTIONS, action);
+		selectByValue(CssSelector.SELECT_ACTIONS, action);
 	}
 	
 	/** 
 	 * "実行"ボタンを押下します。
 	 */
 	public void clickActionButton() {
-		click(CSSSelector.BTN_ACTION);
+		click(CssSelector.BTN_ACTION);
 		waitForSARPageLoaded();
+	}
+
+	private static class CssSelector {
+		/** 実行*/
+		public static final String BTN_ACTION = ".btn_action";
+		
+		/** アクション */
+		public static final String SELECT_ACTIONS = "#actions";
+		/** 月報(一覧) 年月 */
+		public static final String[] GEPPOU_LIST_YYYYMM = {".dctp_ichiran_table .ichiran_tr_data", " td:nth-child(0)"};
+		/** 月報(一覧) 月報S(ステータス) */
+		public static final String[] GEPPOU_LIST_STATUS = {".dctp_ichiran_table .ichiran_tr_data", " td:nth-child(2)"};
 	}
 }

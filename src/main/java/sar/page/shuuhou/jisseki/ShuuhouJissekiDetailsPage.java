@@ -2,7 +2,6 @@ package sar.page.shuuhou.jisseki;
 
 import org.openqa.selenium.WebDriver;
 
-import sar.page.common.CSSSelector;
 import sar.page.shuuhou.AbstractShuuhouPage;
 
 /** 週報実績(詳細)ページクラス  */
@@ -16,7 +15,7 @@ public class ShuuhouJissekiDetailsPage extends AbstractShuuhouPage {
 	 *　@param value : 入力情報 
 	 */
 	public void typeKetsugouKinmuDate(String value) {
-		typeValue(CSSSelector.TXT_KETSUGOU_KINMU_DATE, value);
+		typeValue(CssSelector.TXT_KETSUGOU_KINMU_DATE, value);
 	}
 	
 	/**
@@ -24,7 +23,7 @@ public class ShuuhouJissekiDetailsPage extends AbstractShuuhouPage {
 	 *　@param value : optionのvalue値
 	 */
 	public void selectJissekiHyouka(String value) {
-		selectByValue(CSSSelector.SELECT_JISSEKI_HYOUKA, value);
+		selectByValue(CssSelector.SELECT_JISSEKI_HYOUKA, value);
 	}
 	
 	/**
@@ -32,7 +31,7 @@ public class ShuuhouJissekiDetailsPage extends AbstractShuuhouPage {
 	 *　@param value : 入力情報 
 	 */
 	public void typeHyoukaRiyuu(String value) {
-		typeValue(CSSSelector.TXT_HYUOUKA_RIYUU, value);
+		typeValue(CssSelector.TXT_HYUOUKA_RIYUU, value);
 	}
 	
 	/**
@@ -40,7 +39,7 @@ public class ShuuhouJissekiDetailsPage extends AbstractShuuhouPage {
 	 */
 	public void clickSaveButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_SAVE);
+		click(CommonCssSelector.BTN_SAVE);
 		alertAccept();
 		
 		waitForSARPageLoaded();
@@ -51,10 +50,19 @@ public class ShuuhouJissekiDetailsPage extends AbstractShuuhouPage {
 	 */
 	public ShuuhouJissekiListPage clickApplyJisseki() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_APPLY_JISSEKI);
+		click(CommonCssSelector.BTN_APPLY_JISSEKI);
 		alertAccept();
 		
 		waitForSARPageLoaded();
 		return new ShuuhouJissekiListPage(_driver);
+	}
+	
+	private class CssSelector {
+		/** 作業開始日 */
+		public static final String TXT_KETSUGOU_KINMU_DATE = "#ketsugou_kinmu_date";
+		/** 評価 */
+		public static final String SELECT_JISSEKI_HYOUKA = "#jisseki_hyouka";
+		/** 評価理由 */
+		public static final String TXT_HYUOUKA_RIYUU = "#hyouka_riyuu";	
 	}
 }

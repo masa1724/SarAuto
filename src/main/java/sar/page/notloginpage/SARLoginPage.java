@@ -3,7 +3,6 @@ package sar.page.notloginpage;
 import org.openqa.selenium.WebDriver;
 
 import sar.page.common.AbstractSARPage;
-import sar.page.common.CSSSelector;
 import sar.page.nippou.NippouListPage;
 
 /** SARログインページクラス  */
@@ -13,39 +12,20 @@ public class SARLoginPage extends AbstractSARPage {
 	
 	public SARLoginPage(WebDriver driver){
 		super(driver);
-	}
-	
-	/** 
-	 * ログイン画面へ遷移します。 
-	 */
-	public void open() {
 		waitForPageLoaded();
 		navigate(SAR_LOGIN_URL);
-	}
-	
-	/** 
-	 * "ユーザ名"を入力します。
-	 *　@param value : 入力情報 
-	 */
-	public void typeUserName(String value) {
-		typeValue(CSSSelector.TXT_LOGIN, value);
-	}
-	
-	/**
-	 * "パスワード"を入力します。
-	 *　@param value : 入力情報 
-	 */
-	public void typePassword(String value) {
-		typeValue(CSSSelector.PASS_PASSWORD, value);
 	}
 	
 	/**
 	 * "ログイン"ボタン押下します。 
 	 * @return　日報(一覧)ページオブジェクト
 	 */
-	public NippouListPage submitLoginButton() {
+	public NippouListPage login(String userName, String password) {
+		typeValue(CssSelector.TXT_LOGIN, userName);
+		typeValue(CssSelector.PASS_PASSWORD, password);
+		
 		String title = getTitle();
-		submit(CSSSelector.BTN_LOGIN);
+		submit(CssSelector.BTN_LOGIN);
 		waitForSARPageLoaded();
 		
 		if (!title.equals(getTitle())) {
@@ -53,5 +33,14 @@ public class SARLoginPage extends AbstractSARPage {
 		}
 		
 		return null;
+	}
+	
+	private class CssSelector {
+		/** ユーザ名 */
+		public static final String TXT_LOGIN = "#userid";
+		/** パスワード */
+		public static final String PASS_PASSWORD = "input[type='password']";
+		/** ログイン */
+		public static final String BTN_LOGIN = ".tp-login-form button[type=submit]";
 	}
 }

@@ -5,9 +5,9 @@ import java.util.List;
 
 import library.DateStringUtil;
 import main.ScenarioParamKey;
-import sar.bean.SagyouKeikaku;
+import sar.bean.SagyouTask;
 import sar.page.common.SARPageHeader;
-import sar.page.form.SagyouListForm;
+import sar.page.form.SagyouTaskListForm;
 import sar.page.shuuhou.keikaku.ShuuhouKeikakuDetailsPage;
 import sar.page.shuuhou.keikaku.ShuuhouKeikakuListPage;
 import scenario.Scenario;
@@ -27,8 +27,8 @@ public class ShuuhouKeikakuRegisterScenario implements Scenario {
 	
 	public void start() {
 		// シナリオパラメータを取得
-		List<SagyouKeikaku> sagyouKeikakuRecordList = 
-				(List<SagyouKeikaku>)_params.getObject(ScenarioParamKey.SAGYOU_KEIKAKU_REGISTER_RECORD);
+		List<SagyouTask> SagyouTaskRecordList = 
+				(List<SagyouTask>)_params.getObject(ScenarioParamKey.SAGYOU_KEIKAKU_REGISTER_RECORD);
 		
 		// 現在のページを取得
 		ScenarioDataHolder dataHolder = ScenarioDataHolder.getInstance();
@@ -55,25 +55,25 @@ public class ShuuhouKeikakuRegisterScenario implements Scenario {
 		    String weekStr = "(" + DateStringUtil.getJapaneseWeekName(date) + ")";
 		    
 		    // 対象日のレコードを抽出
-		    List<SagyouKeikaku> dailySagyouKeikakuRecordList = extractDailySagyouKeikakuRecord(sagyouKeikakuRecordList, date);
+		    List<SagyouTask> dailySagyouTaskRecordList = extractDailySagyouTaskRecord(SagyouTaskRecordList, date);
 		    
-		    int dailySagyouKeikakuRecordListSize = dailySagyouKeikakuRecordList.size();
+		    int dailySagyouTaskRecordListSize = dailySagyouTaskRecordList.size();
 		    
 		    // レコードが存在しない
-		    if(dailySagyouKeikakuRecordListSize == 0) {
+		    if(dailySagyouTaskRecordListSize == 0) {
 		    	System.out.println(date + weekStr + "はレコードが存在しません。");
 		    	continue;
 		    }
 		    
 		    // レコードが存在しないかつ、平日の祝日はスキップ
-		    if(dailySagyouKeikakuRecordListSize == 0 && !DateStringUtil.isHoliday(date) && DateStringUtil.isPublicHoliday(date)) {
+		    if(dailySagyouTaskRecordListSize == 0 && !DateStringUtil.isHoliday(date) && DateStringUtil.isPublicHoliday(date)) {
 		    	System.out.println(date + weekStr + "はレコード0件、かつ祝日(" + 
 		    			DateStringUtil.getPublicHolidayName(date) + ")なのでスキップします。");
 		    	continue;
 		    }
 
 		    // レコードが存在しないかつ、休日かつ
-		    if(dailySagyouKeikakuRecordListSize == 0 && DateStringUtil.isHoliday(date)) {
+		    if(dailySagyouTaskRecordListSize == 0 && DateStringUtil.isHoliday(date)) {
 		    	System.out.println(date + weekStr + "はレコード0件、かつ休日なのでスキップします。");
 		    	continue;
 		    }
@@ -82,14 +82,14 @@ public class ShuuhouKeikakuRegisterScenario implements Scenario {
 		    keikakuDetailsPage.clickDailyDateLink(date);
 		    
 		    // レコードが存在する場合、作業計画一覧へ追加
-		    if(dailySagyouKeikakuRecordListSize > 0) {
-		    	System.out.println(date + weekStr + "のレコードを" + dailySagyouKeikakuRecordListSize + "件登録します。");
+		    if(dailySagyouTaskRecordListSize > 0) {
+		    	System.out.println(date + weekStr + "のレコードを" + dailySagyouTaskRecordListSize + "件登録します。");
 		    	
 		    	// 作業計画一覧フォーム取得
-				SagyouListForm sagyouListKeikakuForm = keikakuDetailsPage.getSagyouListKeikakuForm();
+				SagyouTaskListForm sagyouListKeikakuForm = keikakuDetailsPage.getSagyouListKeikakuForm();
 				
 				// フォームへレコードを追加
-		    	for(SagyouKeikaku record : dailySagyouKeikakuRecordList) {
+		    	for(SagyouTask record : dailySagyouTaskRecordList) {
 					sagyouListKeikakuForm.addRecord(record);
 		    	}
 		    }
@@ -98,7 +98,7 @@ public class ShuuhouKeikakuRegisterScenario implements Scenario {
 		    keikakuDetailsPage.clickKinmuKeikakuSaveButton();
 			
 			// 作業計画未追加時に表示される確認aleart対応
-		    if(dailySagyouKeikakuRecordListSize == 0) {
+		    if(dailySagyouTaskRecordListSize == 0) {
 		    	keikakuDetailsPage.alertAccept();
 		    }
 		}
@@ -114,14 +114,14 @@ public class ShuuhouKeikakuRegisterScenario implements Scenario {
 	
 	/**
 	 * 指定された勤務日に該当するレコードを抽出します。
-	 * @param sagyouKeikakuRecordList : 作業実績レコードリスト
+	 * @param SagyouTaskRecordList : 作業実績レコードリスト
 	 * @param kinmuDate : 勤務日
 	 * @return 指定された勤務日に該当するレコードリスト
 	 */
-	public List<SagyouKeikaku> extractDailySagyouKeikakuRecord(List<SagyouKeikaku> sagyouKeikakuRecordList, String kinmuDate) {
-		List<SagyouKeikaku> list = new ArrayList<SagyouKeikaku>();
+	public List<SagyouTask> extractDailySagyouTaskRecord(List<SagyouTask> SagyouTaskRecordList, String kinmuDate) {
+		List<SagyouTask> list = new ArrayList<SagyouTask>();
 		
-		for (SagyouKeikaku record : sagyouKeikakuRecordList) {
+		for (SagyouTask record : SagyouTaskRecordList) {
 			if (record.getSagyouDate().equals(kinmuDate)) {
 				list.add(record);
 			}

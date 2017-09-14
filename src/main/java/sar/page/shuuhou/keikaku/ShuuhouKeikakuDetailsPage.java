@@ -5,8 +5,7 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 
 import main.ProcKind;
-import sar.page.common.CSSSelector;
-import sar.page.form.SagyouListForm;
+import sar.page.form.SagyouTaskListForm;
 import sar.page.shuuhou.AbstractShuuhouPage;
 
 /** 週報計画(詳細)ページクラス  */
@@ -37,7 +36,7 @@ public class ShuuhouKeikakuDetailsPage extends AbstractShuuhouPage {
 	 */
 	public void clickKinmuKeikakuSaveButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_KINMU_KEIKAKU_SAVE);
+		click(CommonCssSelector.BTN_KINMU_KEIKAKU_SAVE);
 	    alertAccept();
 		waitForSARPageLoaded();
 	}
@@ -47,7 +46,7 @@ public class ShuuhouKeikakuDetailsPage extends AbstractShuuhouPage {
 	 */
 	public ShuuhouKeikakuListPage clickRequestButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_APPLY);
+		click(CommonCssSelector.BTN_APPLY);
 	    alertAccept();
 	    
 	    waitForSARPageLoaded();
@@ -58,7 +57,7 @@ public class ShuuhouKeikakuDetailsPage extends AbstractShuuhouPage {
 	 * 作業一覧(計画)フォームを取得します。
 	 * @return 作業一覧(計画)フォーム
 	 */
-	public SagyouListForm getSagyouListKeikakuForm() {
-		return new SagyouListForm(_driver, ProcKind.SHUUHOU_KEIKAKU_REGISTER);
+	public SagyouTaskListForm getSagyouListKeikakuForm() {
+		return new SagyouTaskListForm(_driver, ProcKind.SHUUHOU_KEIKAKU_REGISTER);
 	}
 }

@@ -2,7 +2,6 @@ package sar.page.shuuhou.jisseki;
 
 import org.openqa.selenium.WebDriver;
 
-import sar.page.common.CSSSelector;
 import sar.page.shuuhou.AbstractShuuhouPage;
 
 /** 週報実績(一覧)ページクラス  */
@@ -17,7 +16,7 @@ public class ShuuhouJissekiListPage extends AbstractShuuhouPage {
 	 */
 	public ShuuhouJissekiDetailsPage clickCreateNewButton() {
 		waitLoad(2000);
-		click(CSSSelector.BTN_CREATE_NEW);
+		click(CommonCssSelector.BTN_CREATE_NEW);
 		waitForSARPageLoaded();
 		
 		return new ShuuhouJissekiDetailsPage(_driver);

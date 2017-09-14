@@ -11,8 +11,7 @@ import file.FileID;
 import file.FileRecordFactory;
 import library.WebDriverUtil;
 import sar.bean.Nippou;
-import sar.bean.SagyouJisseki;
-import sar.bean.SagyouKeikaku;
+import sar.bean.SagyouTask;
 import sar.bean.ShuuhouJisseki;
 import sar.scenario.GeppouRegisterScenario;
 import sar.scenario.NippouRegisterScenario;
@@ -65,12 +64,15 @@ public class Main {
 				 switch (procKind){
 					// 週報計画(登録)
 					case ProcKind.SHUUHOU_KEIKAKU_REGISTER:
-						List<SagyouKeikaku> sagyouKeikakuRecordList = 
-							factory.createRecordForList(FileID.SAGYOU_LIST_KEIKAKU_REGISTER, SagyouKeikaku.class);
-						if (sagyouKeikakuRecordList.size() == 0) return;
+						List<SagyouTask> SagyouTaskRecordList = 
+							factory.createRecordForList(FileID.SAGYOU_LIST_KEIKAKU_REGISTER, SagyouTask.class);
+						if (SagyouTaskRecordList.size() == 0) {
+							System.out.println("作業計画登録ファイルの件数が0件です。");
+							return;
+						}
 						
 						operator.addScenario(new ShuuhouKeikakuRegisterScenario(new ScenarioPameter()
-								.setValue(ScenarioParamKey.SAGYOU_KEIKAKU_REGISTER_RECORD, sagyouKeikakuRecordList)
+								.setValue(ScenarioParamKey.SAGYOU_KEIKAKU_REGISTER_RECORD, SagyouTaskRecordList)
 						));
 						break;
 					
@@ -78,7 +80,10 @@ public class Main {
 					case ProcKind.SHUUHOU_JISSEKI_REGISTER:
 						ShuuhouJisseki shuuhouJissekiRegisterRecord = 
 							factory.createRecord(FileID.SHUHOU_JISSEKI_REGISTER, ShuuhouJisseki.class);
-						if (shuuhouJissekiRegisterRecord == null) return;
+						if (shuuhouJissekiRegisterRecord == null) {
+							System.out.println("作業実績登録ファイルの件数が0件です。");
+							return;
+						}
 						
 						operator.addScenario(new ShuuhouJissekiRegisterScenario(new ScenarioPameter()
 								.setValue(ScenarioParamKey.SHUUHOU_JISSEKI_REGISTER_RECORD, shuuhouJissekiRegisterRecord)
@@ -88,10 +93,13 @@ public class Main {
 					// 日報(登録)
 					case ProcKind.NIPPOU_REGISTER:
 						List<Nippou> nippouRecordList = factory.createRecordForList(FileID.NIPPOU_REGISTER, Nippou.class);
-						List<SagyouJisseki> sagyouJissekiRecordList = factory.createRecordForList(FileID.SAGYOU_LIST_JISSEKI_REGISTER, SagyouJisseki.class);
+						List<SagyouTask> sagyouJissekiRecordList = factory.createRecordForList(FileID.SAGYOU_LIST_JISSEKI_REGISTER, SagyouTask.class);
 						
 						if (nippouRecordList.size() == 0 || 
-							sagyouJissekiRecordList.size() == 0) return;
+							sagyouJissekiRecordList.size() == 0) {
+							System.out.println("作業実績登録ファイルの件数が0件です。");
+							return;
+						}
 						
 						operator.addScenario(new NippouRegisterScenario(new ScenarioPameter()
 								.setValue(ScenarioParamKey.NIPPOU_REGISTER_RECORD, nippouRecordList)
@@ -121,13 +129,7 @@ public class Main {
 			e.printStackTrace();
 			return;
 		} finally {
-			if (driver != null) {
-					driver = null;
-			}
-			
-			if (operator != null) {
-				operator = null;
-			}
+			if (driver != null) driver = null;
 		}
 
 		return;
@@ -146,7 +148,7 @@ public class Main {
 		}
 				
 		// 処理区分チェック
-		if (ProcKind.invalidProcKind(option.getProcKind())) {
+		if (ProcKind.validProcKind(option.getProcKind())) {
 			return false;
 		}
 		
@@ -176,7 +178,7 @@ public class Main {
 			return false;
 		}
 		
-		if(WebDriverUtil.invalidBlowserName(blowserName)) {
+		if(WebDriverUtil.validBlowserName(blowserName)) {
 			System.out.println("ブラウザ種類が不正です。"); 
 			System.out.println("InternetExplorer, GoogleChrome, Firefox のいずれかを指定してください。");
 			return false;

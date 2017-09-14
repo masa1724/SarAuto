@@ -2,9 +2,9 @@ package sar.bean;
 
 import lombok.Data;
 
-/** 作業実績レコード */
+/** 作業計画(実績)レコード */
 @Data
-public class SagyouJisseki {
+public class SagyouTask {
 	private String sagyouDate;
 	private String bumonName;
 	private String projectName;

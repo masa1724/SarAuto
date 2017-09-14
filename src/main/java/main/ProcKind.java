@@ -31,7 +31,7 @@ public class ProcKind {
 	 * @param procKind : 引数の処理区分
 	 * @return 含む(true), 含まない(false)
 	 */
-	public static boolean invalidProcKind(String procKind) {
+	public static boolean validProcKind(String procKind) {
 		if (StringUtils.isEmpty(procKind)) {
 			System.out.println("処理区分が指定されていません。");
 			return false;

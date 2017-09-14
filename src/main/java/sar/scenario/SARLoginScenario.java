@@ -28,25 +28,17 @@ public class SARLoginScenario implements Scenario {
 		
 		// SARログインページへ遷移
 		SARLoginPage loginPage = new SARLoginPage(driver);
-		loginPage.open();
-		
-		/* 下記項目を入力 */
-		// ユーザ名
-		loginPage.typeUserName(userName);
-		// パスワード
-		loginPage.typePassword(password);
-		
 		// ログインボタンを押下
-		NippouListPage currentPage = loginPage.submitLoginButton();
+		NippouListPage nippouListPage = loginPage.login(userName, password);
 		
 		// 遷移失敗
-		if(currentPage == null) {
+		if(nippouListPage == null) {
 			return;
 		}
 		
 		// 現在のページオブジェクトを更新
 		ScenarioDataHolder dataHolder = ScenarioDataHolder.getInstance();
-		dataHolder.setValue(ScenarioParamKey.CURRENT_PAGE, currentPage);
+		dataHolder.setValue(ScenarioParamKey.CURRENT_PAGE, nippouListPage);
 		
 		System.out.println("ログインが成功しました。");
 	}
